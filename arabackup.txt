@@ -1,0 +1,107 @@
+# from pqdict import minpq
+# from utilsyay import *
+
+# class arastar():
+#     def __init__(self,robotpos,targetpos,envmap, epsilon):
+#         self.opt_path=[]
+#         pos = tuple(robotpos)
+#         goal = tuple(targetpos)
+#         self.e = epsilon
+#         self.open = minpq({pos:self.e*h(pos,goal)}) # stores fi = gi+hi
+#         self.INCONS = minpq()
+#         self.g = gis_init(pos, envmap)
+#         self.v = vis_init(envmap)
+#         self.closed=set()
+
+    
+#     def computepath(self,g, goal, v, open, closed, envmap):
+#         # print("*"*30)
+#         # print(len(self.open),len(self.INCONS))
+#         # print(self.open.topitem()[1])
+#         """v keeps track of inconsistent nodes"""
+#         dX = [-1, -1, -1, 0, 0, 1, 1, 1]
+#         dY = [-1,  0,  1, -1, 1, -1, 0, 1]
+#         childrend = [(x,y) for x,y in zip(dX,dY)]
+#         # INCONS = minpq()
+#         # print(g[goal],h(goal,goal),open.top())
+#         while self.g[goal] + self.e*h(goal,goal) > self.open.topitem()[1]:
+#             i,_=self.open.popitem()
+#             self.closed.add(i) # inset i into closed
+#             self.v[i]=self.g[i]
+
+#             for cx,cy in childrend: 
+#                 j = (i[0]+cx,i[1]+cy)
+#                 newx,newy = j[0],j[1]
+#                 if not (newx >= 0 and newx < envmap.shape[0] and newy >= 0 and newy < envmap.shape[1]):
+#                     continue
+#                 if  not (envmap[newx, newy] == 0):
+#                     continue
+#                 if j not in self.g:
+#                     continue
+#                 cij = dist(i,j)
+#                 if self.g[j]>self.g[i]+cij:
+#                     self.g[j]=self.g[i]+cij
+#                     if j not in self.closed:
+#                         self.open[j] = self.g[j] + self.e*h(j, goal)
+#                     else:
+#                         self.INCONS[j]=self.g[j] + self.e*h(j, goal)
+
+#             # print("inconslen",len(self.INCONS))
+#         return self.g,self.open,self.closed,self.v,self.INCONS
+#     def ARAstar(self, envmap, robotpos, targetpos):
+
+#         pos = tuple(robotpos)
+#         goal = tuple(targetpos)
+#         ### initiate gs=0, gi to inf ###
+#         # self.g = gis_init(pos, envmap)
+
+#         # g = gis_init(pos, envmap)
+#         # open = minpq({pos:h(pos,goal)}) # stores fi = gi+hi
+#         # closed = set()
+#         dX = [-1, -1, -1, 0, 0, 1, 1, 1]
+#         dY = [-1,  0,  1, -1, 1, -1, 0, 1]
+#         childrend = [(x,y) for x,y in zip(dX,dY)]
+#         # v = vis_init(envmap)
+#         # g = gis_init(pos, envmap)
+
+#         while self.e >= 1:
+#             # closed, self.INCONS = set(), minpq()
+#             # closed=set()
+#             self.g,self.open,self.closed,self.v,self.INCONS = self.computepath(self.g,goal,self.v,self.open,self.closed, envmap)
+#             # self.computepath(self.g,goal,self.v,self.open,self.closed, envmap)
+#             # self.closed=set()
+#             ### publish subopt sol ###
+#             path=[]
+#             i=goal
+#             nextstate = goal
+#             while True:
+
+#                 ming=[]
+#                 for cx,cy in childrend: 
+#                     j = (i[0]+cx,i[1]+cy)
+#                     newx,newy = j[0],j[1]
+#                     if not (newx >= 0 and newx < envmap.shape[0] and newy >= 0 and newy < envmap.shape[1]) and (envmap[newx, newy] == 0):
+#                         continue
+#                     if j not in self.g:
+#                         continue
+#                     ming.append((self.g[j],j))
+
+#                 i = min(ming)[1]
+#                 # print("huehue",i)
+#                 # path.append(i)
+#                 print(i,pos,goal)
+#                 print(path)
+#                 if i == pos:
+#                     break
+#                 path.append(i)
+#                 # if not path:
+#                     # return pos
+
+#             # self.opt_path = path[-1]
+#             # self.e-=3
+#             # print("@"*50)
+#             # print(len(self.open),len(self.INCONS))
+#             self.open = minpq({**self.open,**self.INCONS})
+#             # plot_graph(path, pos,goal,envmap)
+#             return path[-1]
+#             # return self.opt_path

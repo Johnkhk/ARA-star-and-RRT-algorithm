@@ -1,0 +1,2 @@
+make diagonal moves sqrt 2
+use euclid dist as heurisitc
